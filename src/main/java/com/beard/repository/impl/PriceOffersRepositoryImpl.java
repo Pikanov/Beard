@@ -1,0 +1,69 @@
+package com.beard.repository.impl;
+
+import com.beard.entity.PriceOffers;
+import com.beard.repository.PriceOffersRepository;
+import com.beard.util.ConnectorDB;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PriceOffersRepositoryImpl implements PriceOffersRepository {
+    private final static Logger LOGGER = Logger.getLogger(PriceOffersRepositoryImpl.class);
+
+    private ConnectorDB connectorDB;
+
+    private static final String FIND_ALL = "SELECT * FROM price_offers";
+
+    public PriceOffersRepositoryImpl() {
+        this.connectorDB = new ConnectorDB();
+    }
+
+    @Override
+    public List<PriceOffers> findAll() {
+        List<PriceOffers> result = new ArrayList<>();
+
+        try (Connection connection = connectorDB.getDataSource().getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(FIND_ALL);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(priceOffersBuilder(rs));
+            }
+        } catch (SQLException e) {
+            LOGGER.warn("incorrect sql query findAll price_offers");
+        }
+        return result;
+    }
+
+    @Override
+    public PriceOffers findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        return false;
+    }
+
+    @Override
+    public boolean add(PriceOffers priceOffers) {
+        return false;
+    }
+
+    @Override
+    public boolean update(PriceOffers priceOffers) {
+        return false;
+    }
+
+    private PriceOffers priceOffersBuilder(ResultSet rs) throws SQLException {
+        return PriceOffers.builder()
+                .withPriceOffersId(rs.getLong("price_offers_id"))
+                .withName(rs.getString("name"))
+                .withPrice(rs.getInt("price"))
+                .build();
+    }
+}

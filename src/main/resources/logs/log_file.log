@@ -1,0 +1,20 @@
+2019-05-31 19:56:06 ERROR MailSender:46 - MessagingException while sending test results by email: Unknown SMTP host: smtp.gmail.com
+2019-05-31 20:26:23 WARN  MailSender:47 - MessagingException while sending test results by email: Unknown SMTP host: smtp.gmail.com
+2019-05-31 20:28:07 WARN  MailSender:47 - MessagingException while sending test results by email: Unknown SMTP host: smtp.gmail.com
+2019-06-02 21:02:29 WARN  RecordRepositoryImpl:36 - incorrect sql query findAll price_offers
+2019-06-02 21:02:29 WARN  RecordRepositoryImpl:40 - incorrect sql query findAll record
+2019-06-02 21:03:43 WARN  RecordRepositoryImpl:36 - incorrect sql query findAll price_offers
+2019-06-02 21:04:34 WARN  RecordRepositoryImpl:36 - incorrect sql query findAll price_offers
+2019-06-02 22:05:34 WARN  RecordRepositoryImpl:58 - incorrect sql query update user
+2019-06-02 22:06:37 WARN  RecordRepositoryImpl:58 - incorrect sql query update user
+2019-06-02 22:12:48 WARN  RecordRepositoryImpl:58 - incorrect sql query update user
+2019-06-02 22:14:15 WARN  RecordRepositoryImpl:58 - incorrect sql query update user
+2019-06-04 15:25:34 WARN  ScheduleItemRepositoryImpl:45 - incorrect sql query add scheduleItem
+2019-06-06 08:42:32 WARN  ScheduleItemRepositoryImpl:187 - incorrect sql query findUsersForPagination user
+2019-06-06 08:44:02 WARN  ScheduleItemRepositoryImpl:187 - incorrect sql query findUsersForPagination user
+2019-06-06 08:46:25 WARN  ScheduleItemRepositoryImpl:187 - incorrect sql query findUsersForPagination user
+2019-06-06 08:49:03 WARN  ScheduleItemRepositoryImpl:187 - incorrect sql query findUsersForPagination user
+2019-06-06 08:52:43 WARN  ScheduleItemRepositoryImpl:187 - incorrect sql query findUsersForPagination user
+2019-06-06 09:15:52 WARN  ScheduleItemRepositoryImpl:187 - incorrect sql query findUsersForPagination user
+2019-06-06 09:16:10 WARN  ScheduleItemRepositoryImpl:187 - incorrect sql query findUsersForPagination user
+2019-06-06 09:39:53 WARN  ScheduleItemRepositoryImpl:182 - incorrect sql query findUsersForPagination user
