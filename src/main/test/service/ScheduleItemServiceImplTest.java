@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ScheduleItemRepositoryImplTest {
+public class ScheduleItemServiceImplTest {
 
     ScheduleItem  scheduleItem = ScheduleItem.builder()
             .withScheduleItemId(1L)

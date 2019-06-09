@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PriceOffersRepositoryImplTest {
+public class PriceOffersServiceImplTest {
 
     private PriceOffers priceOffers1 = PriceOffers.builder()
             .withPriceOffersId(1L)
