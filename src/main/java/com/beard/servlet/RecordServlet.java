@@ -1,6 +1,7 @@
 package com.beard.servlet;
 
 import com.beard.entity.PriceOffers;
+import com.beard.entity.Schedule;
 import com.beard.entity.ScheduleItem;
 import com.beard.entity.User;
 import com.beard.repository.impl.PriceOffersRepositoryImpl;
@@ -9,6 +10,7 @@ import com.beard.service.PriceOffersService;
 import com.beard.service.ScheduleItemService;
 import com.beard.service.impl.PriceOffersServiceImpl;
 import com.beard.service.impl.ScheduleItemServiceImpl;
+import com.beard.util.MailSender;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @WebServlet("/record")
@@ -38,44 +42,41 @@ public class RecordServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//        String date = req.getParameter("date");
-//        String time = req.getParameter("time");
-//        Long masterId = Long.valueOf(req.getParameter("masterId"));
-        HttpSession session = req.getSession();
+        Long scheduleItemId = Long.valueOf(req.getParameter("scheduleItemId"));
+        LocalDate date = LocalDate.parse(req.getParameter("date"));
+        LocalTime time = LocalTime.parse(req.getParameter("time"));
+        Long masterId = Long.valueOf(req.getParameter("masterId"));
+        String masterFirstName = req.getParameter("firstName");
+        String masterLastName = req.getParameter("lastName");
 
+        HttpSession session = req.getSession();
         Long customerId = (Long) session.getAttribute("userId");
+        String customerMail = String.valueOf(session.getAttribute("email"));
         Long inputPriceService = Long.valueOf(req.getParameter("inputPriceService"));
 
-
-        ScheduleItem item = (ScheduleItem)session.getAttribute("item");
-        item.setFreeBusy(false);
-        item.setCustomer(User.builder().withUserId(customerId).build());
-
-        item.setPriceOffers(PriceOffers.builder()
-                .withPriceOffersId(inputPriceService)
-                .build());
-
-        //1. записывать item уже не нужно, нужно только апдейтить поле FreeBusy и Customer и PriceOffer
-        //2. Добавленные
-
-        scheduleItemService.update(item); //TODO мы должны передавать ScheduleItem
-
-        scheduleItemService.updateFreeBusyById(item);
-
-        resp.sendRedirect("/congratulations");
-    }
-
-    private ScheduleItem buildScheduleItem(Long inputPriceService, Long customerId) {
-
-        return ScheduleItem.builder()
-                .withCustomer(User.builder()
-                        .withUserId(customerId)
+        ScheduleItem scheduleItem = ScheduleItem.builder()
+                .withScheduleItemId(scheduleItemId)
+                .withDate(date)
+                .withTime(time)
+                .withMaster(User.builder().withUserId(masterId)
+                        .withFirstName(masterFirstName)
+                        .withLastName(masterLastName)
                         .build())
-                .withPriceOffers(PriceOffers.builder()
-                        .withPriceOffersId(inputPriceService)
-                        .build())
+                .withCustomer(User.builder().withUserId(customerId).build())
                 .withFreeBusy(false)
+                .withSchedule(new Schedule(1L))
+                .withPriceOffers(priceOffersService.findById(inputPriceService))
                 .build();
 
+        session.setAttribute("scheduleItem", scheduleItem);
+
+        scheduleItemService.update(scheduleItem);
+
+        User mailTo = User.builder().withEmail(customerMail).build();
+
+        MailSender.sendMessageToEmail(mailTo);
+
+        req.setAttribute("item", scheduleItem);
+        resp.sendRedirect("/congratulations");
     }
 }

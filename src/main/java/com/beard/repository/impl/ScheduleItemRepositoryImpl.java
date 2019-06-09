@@ -28,12 +28,17 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepository {
             "JOIN schedules ON schedule_items.schedule_id = schedules.schedule_id " +
             "JOIN price_offers ON schedule_items.price_offers_id = price_offers.price_offers_id";
 
+    private static final String FIND_BY_ID_BASIC = "SELECT * FROM schedule_items " +
+            "JOIN users i1 ON (schedule_items.master_id = i1.user_id) " +
+            "JOIN schedules ON schedule_items.schedule_id = schedules.schedule_id " +
+            "WHERE schedule_items.schedule_id = ?";
+
     private static final String FIND_BY_ID = "SELECT * FROM schedule_items " +
             "JOIN users i1 ON (schedule_items.master_id = i1.user_id) " +
-//            "JOIN users i2 ON (schedule_items.customer_id = i2.user_id) " +
+            "JOIN users i2 ON (schedule_items.customer_id = i2.user_id) " +
             "JOIN schedules ON schedule_items.schedule_id = schedules.schedule_id " +
-//            "JOIN price_offers ON schedule_items.price_offers_id = price_offers.price_offers_id " +
-            "WHERE schedule_items.schedule_id = ?";
+            "JOIN price_offers ON schedule_items.price_offers_id = price_offers.price_offers_id " +
+            "WHERE WHERE schedule_items.schedule_item_id=?";
 
     private static final String ADD = "INSERT INTO schedule_items (date, time, " +
             "master_id, customer_id, free_busy, schedule_id, price_offers_id) " +
@@ -42,12 +47,9 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepository {
     private static final String DELETE_BY_ID = "DELETE FROM schedule_items " +
                                                "WHERE schedule_item_id = ?";
 
-    private static final String UPDATE = "UPDATE users SET date=?,time=?, master_id=?, " +
+    private static final String UPDATE = "UPDATE schedule_items SET date=?,time=?, master_id=?, " +
             "customer_id=?, free_busy=?, schedule_id=?, price_offers_id=? " +
             "WHERE schedule_item_id=?";
-
-    private static final String UPDATE_FREE_BUSY = "UPDATE schedule_items SET free_busy=? " +
-                                                   "WHERE schedule_item_id =?";
 
     private static final String FIND_FOR_PAGINATION = "SELECT * FROM schedule_items " +
             "JOIN users i1 ON (schedule_items.master_id = i1.user_id) " +
@@ -87,7 +89,7 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepository {
         List<ScheduleItem> result = new ArrayList<>();
 
         try (Connection connection = connectorDB.getDataSource().getConnection();
-             PreparedStatement ps = connection.prepareStatement(FIND_BY_ID)) {
+             PreparedStatement ps = connection.prepareStatement(FIND_BY_ID_BASIC)) {
             ps.setLong(1, scheduleId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -108,7 +110,7 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepository {
             ps.setLong(3, scheduleItem.getMaster().getUserId());
             ps.setLong(4, scheduleItem.getCustomer().getUserId());
             ps.setBoolean(5, scheduleItem.getFreeBusy());
-            ps.setLong(6, scheduleItem.getSchedule().getScheduleId()); //TODO тут падаем
+            ps.setLong(6, scheduleItem.getSchedule().getScheduleId());
             ps.setLong(7, scheduleItem.getPriceOffers().getPriceOffersId());
 
             ps.executeUpdate();
@@ -155,21 +157,6 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepository {
         return true;
     }
 
-
-    @Override
-    public boolean updateFreeBusyById(ScheduleItem scheduleItem) {
-        try (Connection connection = connectorDB.getDataSource().getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(UPDATE_FREE_BUSY);
-            ps.setBoolean(1, scheduleItem.getFreeBusy());
-            ps.setLong(2, scheduleItem.getScheduleItemId());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.warn("incorrect sql query update user");
-            return false;
-        }
-        return true;
-    }
-
     @Override
     public List<ScheduleItem> findScheduleItemForPagination(int startRecord, int recordsPerPage) {
 
@@ -203,6 +190,21 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepository {
             LOGGER.warn("incorrect sql query getNumberOfRows");
         }
         return numberOfRows;
+    }
+
+    @Override
+    public ScheduleItem findById(Long scheduleItemId) {
+        try (Connection connection = connectorDB.getDataSource().getConnection();
+             PreparedStatement ps = connection.prepareStatement(FIND_BY_ID)) {
+            ps.setLong(1, scheduleItemId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return scheduleItemBuilder(rs);
+            }
+        } catch (SQLException e) {
+            LOGGER.warn("incorrect sql query update user");
+        }
+        return null;
     }
 
 

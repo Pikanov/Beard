@@ -1,6 +1,5 @@
 package com.beard.servlet;
 
-import com.beard.entity.ScheduleItem;
 import com.beard.repository.impl.ScheduleItemRepositoryImpl;
 import com.beard.service.ScheduleItemService;
 import com.beard.service.impl.ScheduleItemServiceImpl;
@@ -23,10 +22,11 @@ public class CongratulationServlet extends HttpServlet {
             throws ServletException, IOException {
 //TODO
         HttpSession session = req.getSession();
-        ScheduleItem record = (ScheduleItem) session.getAttribute("record");
-
+       // ScheduleItem scheduleItem = (ScheduleItem) session.getAttribute("item");
+        //System.out.println(scheduleItem);
+        //session.setAttribute("scheduleItem", scheduleItem);
         RequestDispatcher dispatcher = req.getRequestDispatcher("jsp/congratulations.jsp");
-        req.setAttribute("record", record);
+
         dispatcher.forward(req, resp);
     }
 }

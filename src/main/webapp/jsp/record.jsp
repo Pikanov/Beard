@@ -10,6 +10,10 @@
     <form action = "record" method="post">
 
         <div class="form-group">
+            <input class="form-control" id="scheduleItemId" name="scheduleItemId" value="${item.scheduleItemId}" readonly/>
+        </div>
+
+        <div class="form-group">
             <input class="form-control" id="date" name="date" value="${item.date}" readonly/>
         </div>
 

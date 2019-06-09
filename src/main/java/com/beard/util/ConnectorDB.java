@@ -24,10 +24,6 @@ public class ConnectorDB {
             ds.setUsername(property.getProperty("jdbc.username"));
             ds.setPassword(property.getProperty("jdbc.password"));
 
-            ds.setMinIdle(5);
-            ds.setMaxIdle(10);
-            ds.setMaxOpenPreparedStatements(100);
-
         } catch (IOException e) {
             LOGGER.warn("cannot connect to DB");
         }

@@ -25,13 +25,13 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <th scope="row">${record.recordId}</th>
-                        <td>${record.user.firstName}</td>
-                        <td>${record.user.lastName}</td>
-                        <td>${record.priceOffers.price}</td>
-                        <td>${record.priceOffers.name}</td>
-                        <td>${record.date}</td>
-                        <td>${record.time}</td>
+                        <th scope="row">${scheduleItem.scheduleItemId}</th>
+                        <td>${scheduleItem.master.firstName}</td>
+                        <td>${scheduleItem.master.lastName}</td>
+                        <td>${scheduleItem.priceOffers.price}</td>
+                        <td>${scheduleItem.priceOffers.name}</td>
+                        <td>${scheduleItem.date}</td>
+                        <td>${scheduleItem.time}</td>
                     </tr>
                 </tbody>
             </table>

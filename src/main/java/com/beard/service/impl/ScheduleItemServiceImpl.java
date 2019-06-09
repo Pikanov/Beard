@@ -40,10 +40,6 @@ public class ScheduleItemServiceImpl implements ScheduleItemService {
         return scheduleItemRepository.update(scheduleItem);
     }
 
-    @Override
-    public boolean updateFreeBusyById(ScheduleItem scheduleItem) {
-        return scheduleItemRepository.updateFreeBusyById(scheduleItem);
-    }
 
     @Override
     public List<ScheduleItem> findScheduleItemForPagination(int startRecord, int recordsPerPage) {
@@ -53,5 +49,10 @@ public class ScheduleItemServiceImpl implements ScheduleItemService {
     @Override
     public int getNumberOfRows() {
         return scheduleItemRepository.getNumberOfRows();
+    }
+
+    @Override
+    public ScheduleItem findById(Long scheduleItemId) {
+        return scheduleItemRepository.findById(scheduleItemId);
     }
 }

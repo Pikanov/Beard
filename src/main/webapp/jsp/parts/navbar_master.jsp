@@ -30,8 +30,8 @@
 <div class="container-fluid bg-light">
     <div id="navigation" class="float-right" >
         <ul>
-            <li><a href="?sessionLocale=en"><fmt:message key="menu.en"/></a></li>
-            <li><a href="?sessionLocale=ru"><fmt:message key="menu.ru"/></a></li>
+            <li><a href="?sessionLocale=en" class="btn btn-primary btn-lg active" role="button" aria-disabled="true"><fmt:message key="menu.en"/></a></li>
+            <li><a href="?sessionLocale=ru" class="btn btn-primary btn-lg active" role="button" aria-disabled="true"><fmt:message key="menu.ru"/></a></li>
         </ul>
     </div>
 </div>

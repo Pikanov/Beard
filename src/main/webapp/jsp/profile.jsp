@@ -25,8 +25,7 @@
 
                 <div class="form-group">
                     <label for="password"><fmt:message key="profile.password"/></label>
-                    <input type="text" class="form-control" id="password" name="password"
-                           value="${user.password}" minlength="8" maxlength="128"/>
+                    <input type="text" class="form-control" id="password" name="password" minlength="8" maxlength="128"/>
                     <small id="passwordHelp" class="form-text text-muted"><fmt:message key="profile.changePassword"/></small>
                 </div>
 

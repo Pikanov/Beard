@@ -1,5 +1,6 @@
 package com.beard.util;
 
+import com.beard.entity.User;
 import com.sun.mail.smtp.SMTPTransport;
 import org.apache.log4j.Logger;
 
@@ -19,8 +20,9 @@ public class MailSender {
     private static final String PROTOCOL = "smtps";
     private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
-//TODO  в сигнатуру метода передать юзера и брать из него почту для отправки емейла;
-    public static void sendMessageToEmail() {
+    public static void sendMessageToEmail(User user) {
+
+        System.out.println("Mail send");
         try {
             Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
 
@@ -32,7 +34,7 @@ public class MailSender {
             final MimeMessage msg = new MimeMessage(session);
 
             msg.setFrom(new InternetAddress(SEND_FROM + "@gmail.com"));
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("pikanov_v@ukr.net", false));
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail(), false));
             msg.setSubject("Hello Andrew");
             msg.setContent("Thank you for visiting our barber. You can write your " +
                               "feedback at this address: http://localhost:8080/comment"

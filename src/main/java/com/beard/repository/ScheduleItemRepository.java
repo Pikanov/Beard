@@ -16,9 +16,9 @@ public interface ScheduleItemRepository {
 
     boolean update(ScheduleItem scheduleItem);
 
-    boolean updateFreeBusyById(ScheduleItem scheduleItem);
-
     List<ScheduleItem> findScheduleItemForPagination(int startRecord, int recordsPerPage);
 
     int getNumberOfRows();
+
+    ScheduleItem findById(Long scheduleItemId);
 }

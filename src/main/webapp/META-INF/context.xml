@@ -11,7 +11,7 @@
                     validationInterval="30000"
                     timeBetweenEvictionRunsMillis="30000"
                     maxActive="100"
-                    minIdle="10"
+                    minIdle="5"
                     maxWait="10000"
                     initialSize="25"
                     removeAbandonedTimeout="60"

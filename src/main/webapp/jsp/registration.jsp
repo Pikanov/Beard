@@ -14,30 +14,30 @@
                 <div class="form-group">
                     <label for="firstName"><fmt:message key="registration.firstName"/></label>
                     <input type="text" class="form-control" id="firstName" name="firstName"/>
-                    <small roleId="firstNameHelp" class="form-text text-muted"><fmt:message key="registration.enterFirstName"/></small>
+                    <small id="firstNameHelp" class="form-text text-muted"><fmt:message key="registration.enterFirstName"/></small>
                 </div>
 
                 <div class="form-group">
                     <label for="lastName"><fmt:message key="registration.lastName"/></label>
                     <input type="text" class="form-control" id="lastName" name="lastName"/>
-                    <small roleId="lastNameHelp" class="form-text text-muted"><fmt:message key="registration.enterLastName"/></small>
+                    <small id="lastNameHelp" class="form-text text-muted"><fmt:message key="registration.enterLastName"/></small>
                 </div>
 
                 <div class="form-group">
                     <label for="phoneNumber"><fmt:message key="registration.phoneNumber"/></label>
                     <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"/>
-                    <small roleId="phoneNumberHelp" class="form-text text-muted"><fmt:message key="registration.enterPhoneNumber"/></small>
+                    <small id="phoneNumberHelp" class="form-text text-muted"><fmt:message key="registration.enterPhoneNumber"/></small>
                 </div>
 
                 <div class="form-group">
                     <label for="email"><fmt:message key="registration.email"/></label>
                     <input type="email" class="form-control" id="email" name="email"/>
-                    <small roleId="emailHelp" class="form-text text-muted"><fmt:message key="registration.enterEmail"/></small>
+                    <small id="emailHelp" class="form-text text-muted"><fmt:message key="registration.enterEmail"/></small>
                 </div>
                 <div class="form-group">
                     <label for="password"><fmt:message key="registration.password"/></label>
                     <input type="password" class="form-control" id="password" name="password" minlength="8" maxlength="128"/>
-                    <small roleId="passwordHelp" class="form-text text-muted"><fmt:message key="registration.passwordHelp"/>
+                    <small id="passwordHelp" class="form-text text-muted"><fmt:message key="registration.passwordHelp"/>
                     </small>
                 </div>
 

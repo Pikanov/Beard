@@ -41,7 +41,19 @@ public class PriceOffersRepositoryImpl implements PriceOffersRepository {
 
     @Override
     public PriceOffers findById(Long id) {
-        return null;
+        String query = "SELECT * FROM beard.price_offers WHERE price_offers_id=?";
+        PriceOffers result = null;
+        try (Connection connection = connectorDB.getDataSource().getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result =  priceOffersBuilder(rs);
+            }
+        } catch (SQLException e) {
+            LOGGER.warn("incorrect sql query findAll price_offers");
+        }
+        return result;
     }
 
     @Override

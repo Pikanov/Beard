@@ -18,3 +18,4 @@
 2019-06-06 09:15:52 WARN  ScheduleItemRepositoryImpl:187 - incorrect sql query findUsersForPagination user
 2019-06-06 09:16:10 WARN  ScheduleItemRepositoryImpl:187 - incorrect sql query findUsersForPagination user
 2019-06-06 09:39:53 WARN  ScheduleItemRepositoryImpl:182 - incorrect sql query findUsersForPagination user
+2019-06-09 16:18:56 WARN  MailSender:49 - MessagingException while sending test results by email: Domain contains illegal character

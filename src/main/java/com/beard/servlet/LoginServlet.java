@@ -4,8 +4,9 @@ import com.beard.entity.Role;
 import com.beard.entity.User;
 import com.beard.repository.UserRepository;
 import com.beard.repository.impl.UserRepositoryImpl;
-import com.beard.service.impl.UserServiceImpl;
 import com.beard.service.UserService;
+import com.beard.service.impl.UserServiceImpl;
+import com.beard.util.PasswordEncryption;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -35,11 +36,18 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
-        String password = req.getParameter("password");
+        String password = PasswordEncryption.encryption(req.getParameter("password"));
         emailValidation(req, resp, email);
         Optional<User> optionalUser = userService.findByEmail(email);
         checkingExistenceUserInDatabase(req, resp, optionalUser);
-        passwordComparison(req,resp, password, optionalUser);
+
+        if (!optionalUser.get().getPassword().equals(password)) {
+            req.setAttribute("exception", "You entered the wrong password!");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("jsp/login.jsp");
+            dispatcher.forward(req, resp);
+            return;
+        }
+
         Role role = optionalUser.get().getRole();
         HttpSession session = req.getSession();
         session.setAttribute("role", role.getRole());
@@ -60,15 +68,6 @@ public class LoginServlet extends HttpServlet {
                                                  Optional<User> optionalUser) throws ServletException, IOException {
         if (!optionalUser.isPresent()) {
             req.setAttribute("exception", "There is no user with such email!");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("jsp/login.jsp");
-            dispatcher.forward(req, resp);
-        }
-    }
-
-    private void passwordComparison(HttpServletRequest req, HttpServletResponse resp, String password,
-                                    Optional<User> optionalUser) throws ServletException, IOException {
-        if (!optionalUser.get().getPassword().equals(password)) {
-            req.setAttribute("exception", "You entered the wrong password!");
             RequestDispatcher dispatcher = req.getRequestDispatcher("jsp/login.jsp");
             dispatcher.forward(req, resp);
         }

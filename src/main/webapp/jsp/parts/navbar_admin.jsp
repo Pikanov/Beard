@@ -23,7 +23,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/users"><fmt:message key="navAdmin.editUsers"/></a>
+                <a class="nav-link" href="/users"><fmt:message key="navAdmin.users"/></a>
             </li>
 
         </ul>
@@ -34,8 +34,8 @@
 <div class="container-fluid bg-light">
     <div id="navigation" class="float-right" >
         <ul>
-            <li><a href="?sessionLocale=en"><fmt:message key="menu.en"/></a></li>
-            <li><a href="?sessionLocale=ru"><fmt:message key="menu.ru"/></a></li>
+            <li><a href="?sessionLocale=en" class="btn btn-primary btn-lg active" role="button" aria-disabled="false"><fmt:message key="menu.en"/></a></li>
+            <li><a href="?sessionLocale=ru" class="btn btn-primary btn-lg active" role="button" aria-disabled="false"><fmt:message key="menu.ru"/></a></li>
         </ul>
     </div>
 </div>

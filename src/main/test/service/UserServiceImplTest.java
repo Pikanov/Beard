@@ -17,7 +17,9 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 
@@ -34,13 +36,13 @@ public class UserServiceImplTest {
             .build();
 
     private User master = User.builder()
-            .withUserId(1L)
+            .withUserId(2L)
             .withFirstName("Alex")
             .withLastName("Petrov")
-            .withEmail("petrov@gmail.com")
+            .withEmail("petrov2@gmail.com")
             .withPassword("123456789")
             .withPhoneNumber("0632773351")
-            .withRole(new Role(1L, "master"))
+            .withRole(new Role(3L, "master"))
             .build();
 
     @InjectMocks

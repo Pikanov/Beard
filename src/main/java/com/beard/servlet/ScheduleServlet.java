@@ -26,8 +26,7 @@ import java.util.List;
 @WebServlet("/schedule")
 public class ScheduleServlet extends HttpServlet {
 
-    private ScheduleItemService scheduleItemService = new ScheduleItemServiceImpl(
-                                                             new ScheduleItemRepositoryImpl());
+    private ScheduleItemService scheduleItemService = new ScheduleItemServiceImpl(new ScheduleItemRepositoryImpl());
 
     private PriceOffersService priceOffersService = new PriceOffersServiceImpl(new PriceOffersRepositoryImpl());
 

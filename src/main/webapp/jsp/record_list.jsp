@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-lg-0"></div>
         <div class="col-lg-12 table-responsive">
-            <table class="table table-hover" id = "myTable">
+            <table class="table table-hover" id="myTable">
                 <thead>
                 <tr>
                     <th scope="col"><fmt:message key="recordList.id"/></th>
@@ -36,7 +36,12 @@
                         <td>${records.customer.firstName}</td>
                         <td>${records.customer.lastName}</td>
                         <td>${records.customer.email}</td>
-
+                        <td>
+                            <form action="record_list" method="post">
+                                <a class="btn btn-primary" href="mailto:${records.customer.email}}" role="button">Send
+                                    email</a>
+                            </form>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -46,6 +51,13 @@
     </div>
 
 
+    <%--    <form action="contact" method="post">--%>
+    <%--        <p>Your email address: <input name="email"></p>--%>
+    <%--        <p>Mail subject: <input name="subject"></p>--%>
+    <%--        <p>Mail message: <textarea name="message"></textarea></p>--%>
+    <%--        <p><input type="submit"><span class="message">${message}</span></p>--%>
+    <%--    </form>--%>
+
     <div class="row">
         <div class="col-lg-4"></div>
         <div class="col-lg-4">
@@ -53,7 +65,8 @@
                 <ul class="pagination justify-content-center">
                     <c:if test="${currentPage != 1}">
                         <li class="page-item"><a class="page-link"
-                                                 href="record_list?recordsPerPage=${recordsPerPage}&currentPage=${currentPage-1}"><fmt:message key="recordList.previous"/></a>
+                                                 href="record_list?recordsPerPage=${recordsPerPage}&currentPage=${currentPage-1}"><fmt:message
+                                key="recordList.previous"/></a>
                         </li>
                     </c:if>
 
@@ -74,7 +87,8 @@
 
                     <c:if test="${currentPage lt noOfPages}">
                         <li class="page-item"><a class="page-link"
-                                                 href="record_list?recordsPerPage=${recordsPerPage}&currentPage=${currentPage+1}"><fmt:message key="recordList.next"/></a>
+                                                 href="record_list?recordsPerPage=${recordsPerPage}&currentPage=${currentPage+1}"><fmt:message
+                                key="recordList.next"/></a>
                         </li>
                     </c:if>
                 </ul>
