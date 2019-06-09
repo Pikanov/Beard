@@ -17,12 +17,9 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-
 public class UserServiceImplTest {
 
     private User user = User.builder()
@@ -45,11 +42,11 @@ public class UserServiceImplTest {
             .withRole(new Role(3L, "master"))
             .build();
 
-    @InjectMocks
-    private UserServiceImpl userService;
-
     @Mock
     private UserRepository userRepository;
+
+    @InjectMocks
+    private UserServiceImpl userService;
 
     @Test
     public void defineByIdInvokeEmpty() {
@@ -73,7 +70,7 @@ public class UserServiceImplTest {
         List<User> expected = new ArrayList<>();
         expected.add(user);
         expected.add(master);
-        when(userService.findAll()).thenReturn(expected);
+        when(userRepository.findAll()).thenReturn(expected);
 
         List<User> actual = userService.findAll();
         verify(userRepository, times(1)).findAll();
@@ -93,5 +90,82 @@ public class UserServiceImplTest {
         assertTrue(actual.isPresent());
 
         assertEquals(actual.get(), user);
+    }
+
+    @Test
+    public void shouldAddUsers() {
+
+        when(userRepository.add(user)).thenReturn(true);
+
+        boolean actual = userService.add(user);
+        boolean expected = true;
+
+        assertEquals( expected, actual);
+    }
+
+    @Test
+    public void shouldUpdateUsers() {
+
+        when(userRepository.update(user)).thenReturn(true);
+
+        boolean actual = userService.update(user);
+        boolean expected = true;
+
+        assertEquals( expected, actual);
+    }
+
+
+    @Test
+    public void shouldDeleteById() {
+
+        when(userRepository.deleteById(1L)).thenReturn(true);
+
+        boolean actual = userService.deleteById(1L);
+        boolean expected = true;
+
+        assertEquals( expected, actual);
+    }
+
+    @Test
+    public void shouldFindById() {
+
+        Mockito.doReturn(Optional.of(user)).when(userRepository).findById(1L);
+
+        Optional<User> actual = userService.findById(1L);
+
+        verify(userRepository, times(1)).findById(1L);
+
+        assertTrue(actual.isPresent());
+
+        assertEquals(actual.get(), user);
+    }
+
+    @Test
+    public void shouldFindUsersForPagination() {
+
+        List<User> expected = new ArrayList<>();
+        expected.add(user);
+        expected.add(master);
+
+        when(userRepository.findUsersForPagination( 1, 5)).thenReturn(expected);
+
+        List<User> actual = userService.findUsersForPagination(1,5);
+
+        assertEquals(expected.size(), actual.size());
+    }
+
+    @Test
+    public void shouldGetNumberOfRows() {
+
+        List<User> list = new ArrayList<>();
+        list.add(user);
+        list.add(master);
+
+        when(userRepository.getNumberOfRows()).thenReturn(2);
+
+        int actual = userService.getNumberOfRows();
+        int expected = list.size();
+
+        assertEquals(expected, actual);
     }
 }

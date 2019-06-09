@@ -19,6 +19,9 @@ public class PriceOffersRepositoryImpl implements PriceOffersRepository {
 
     private static final String FIND_ALL = "SELECT * FROM price_offers";
 
+    private static final String FIND_BY_ID = "SELECT * FROM beard.price_offers " +
+                                             "WHERE price_offers_id=?";
+
     public PriceOffersRepositoryImpl() {
         this.connectorDB = new ConnectorDB();
     }
@@ -41,10 +44,9 @@ public class PriceOffersRepositoryImpl implements PriceOffersRepository {
 
     @Override
     public PriceOffers findById(Long id) {
-        String query = "SELECT * FROM beard.price_offers WHERE price_offers_id=?";
         PriceOffers result = null;
         try (Connection connection = connectorDB.getDataSource().getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = connection.prepareStatement(FIND_BY_ID);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
