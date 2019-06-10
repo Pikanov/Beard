@@ -50,7 +50,7 @@ public class UserServiceImplTest {
 
     @Test
     public void defineByIdInvokeEmpty() {
-        Long findById = 1L;
+        Long findById = 0L;
 
         Mockito.doReturn(Optional.empty()).when(userRepository).findById(findById);
         userService.findById(findById);

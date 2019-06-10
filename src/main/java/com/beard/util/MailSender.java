@@ -22,7 +22,6 @@ public class MailSender {
 
     public static void sendMessageToEmail(User user) {
 
-        System.out.println("Mail send");
         try {
             Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
 
@@ -35,7 +34,7 @@ public class MailSender {
 
             msg.setFrom(new InternetAddress(SEND_FROM + "@gmail.com"));
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail(), false));
-            msg.setSubject("Hello Andrew");
+            msg.setSubject("Hello!");
             msg.setContent("Thank you for visiting our barber. You can write your " +
                               "feedback at this address: http://localhost:8080/comment"
                     , "text/html; charset=utf-8");
