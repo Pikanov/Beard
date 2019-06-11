@@ -13,7 +13,7 @@ public class User {
     private Role role;
     private List<ScheduleItem> scheduleItem;
 
-    public User(Builder builder) {
+    private User(Builder builder) {
         this.userId = builder.userId;
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
@@ -101,6 +101,7 @@ public class User {
                 ", scheduleItem=" + scheduleItem +
                 '}';
     }
+
     public static class Builder {
         private Long userId;
         private String firstName;

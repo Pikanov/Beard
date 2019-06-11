@@ -1,4 +1,4 @@
-package com.beard.servlet;
+package com.beard.controller;
 
 import com.beard.entity.Role;
 import com.beard.entity.User;
@@ -53,7 +53,7 @@ public class LoginServlet extends HttpServlet {
         session.setAttribute("role", role.getRole());
         session.setAttribute("email", email);
         session.setAttribute("userId", optionalUser.get().getUserId());
-        resp.sendRedirect("schedule");
+        resp.sendRedirect("/schedule");
     }
 
     private void emailValidation(HttpServletRequest req, HttpServletResponse resp, String email) throws ServletException, IOException {

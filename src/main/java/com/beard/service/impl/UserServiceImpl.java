@@ -14,6 +14,7 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     @Override
     public boolean add(User user) {
         return userRepository.add(user);
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findUsersForPagination(int startRecord, int recordsPerPage) {
-        return userRepository.findUsersForPagination(startRecord,recordsPerPage);
+        return userRepository.findUsersForPagination(startRecord, recordsPerPage);
     }
 
     @Override

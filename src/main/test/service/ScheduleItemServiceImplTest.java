@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class ScheduleItemServiceImplTest {
 
-    ScheduleItem  scheduleItem = ScheduleItem.builder()
+    private ScheduleItem  scheduleItem = ScheduleItem.builder()
             .withScheduleItemId(1L)
             .withDate(LocalDate.parse("2019-06-10"))
             .withTime(LocalTime.parse("10:00:00"))
@@ -48,7 +48,7 @@ public class ScheduleItemServiceImplTest {
                         .build())
             .build();
 
-   ScheduleItem basicScheduleItem = ScheduleItem.builder()
+   private ScheduleItem basicScheduleItem = ScheduleItem.builder()
             .withScheduleItemId(1L)
            .withDate(LocalDate.parse("2019-06-11"))
            .withTime(LocalTime.parse("11:00:00"))

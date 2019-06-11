@@ -7,14 +7,12 @@ public class Comment {
     private String comment;
     private User user;
 
-    public Comment(Builder builder) {
+    private Comment(Builder builder) {
         this.commentId = builder.commentId;
         this.comment = builder.comment;
         this.user = builder.user;
     }
 
-    public Comment() {
-    }
 
     public static Builder builder() {
         return new Builder();

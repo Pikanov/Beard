@@ -1,4 +1,4 @@
-package com.beard.servlet;
+package com.beard.controller;
 
 import com.beard.entity.Role;
 import com.beard.entity.User;
@@ -34,7 +34,7 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        User user =User.builder()
+        User user = User.builder()
                 .withFirstName(req.getParameter("firstName"))
                 .withLastName(req.getParameter("lastName"))
                 .withEmail(req.getParameter("email"))

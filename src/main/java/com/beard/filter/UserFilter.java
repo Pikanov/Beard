@@ -21,8 +21,8 @@ public class UserFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         HttpSession session = req.getSession();
         if (session != null
-                    && (session.getAttribute("role").equals("admin")
-                    || session.getAttribute("role").equals("master"))){
+                && (session.getAttribute("role").equals("admin")
+                || session.getAttribute("role").equals("master"))) {
             filterChain.doFilter(req, resp);
         } else {
             resp.sendRedirect("/schedule");

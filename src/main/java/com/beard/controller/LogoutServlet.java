@@ -1,4 +1,4 @@
-package com.beard.servlet;
+package com.beard.controller;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,12 +10,12 @@ import java.io.IOException;
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
 
-        @Override
-        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-            HttpSession session = req.getSession();
-            if (session != null){
-                session.invalidate();
-            }
-            resp.sendRedirect("/login");
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        HttpSession session = req.getSession();
+        if (session != null) {
+            session.invalidate();
         }
+        resp.sendRedirect("/login");
     }
+}

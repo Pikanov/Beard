@@ -1,4 +1,4 @@
-package com.beard.servlet;
+package com.beard.controller;
 
 import com.beard.entity.PriceOffers;
 import com.beard.entity.Schedule;

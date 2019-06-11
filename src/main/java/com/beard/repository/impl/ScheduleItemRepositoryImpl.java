@@ -8,12 +8,7 @@ import com.beard.repository.ScheduleItemRepository;
 import com.beard.util.ConnectorDB;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Time;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +40,7 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepository {
             "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     private static final String DELETE_BY_ID = "DELETE FROM schedule_items " +
-                                               "WHERE schedule_item_id = ?";
+            "WHERE schedule_item_id = ?";
 
     private static final String UPDATE = "UPDATE schedule_items SET date=?,time=?, master_id=?, " +
             "customer_id=?, free_busy=?, schedule_id=?, price_offers_id=? " +
@@ -59,7 +54,7 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepository {
             "LIMIT ?, ?";
 
     private static final String GET_NUMBER_OF_ROWS = "SELECT COUNT(schedule_item_id) " +
-                                                     "FROM schedule_items";
+            "FROM schedule_items";
 
 
     public ScheduleItemRepositoryImpl() {
@@ -78,11 +73,18 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepository {
                 result.add(scheduleItemBuilder(rs));
             }
         } catch (SQLException e) {
-            LOGGER.warn("incorrect sql query findAll record");
+            LOGGER.warn("incorrect sql query findAll scheduleItem");
+            throw new RuntimeException(e);
         }
         return result;
     }
 
+    /**
+     * this method filters the base columns from the database for the schedule.jsp
+     *
+     * @param scheduleId
+     * @return
+     */
     @Override
     public List<ScheduleItem> findByIdScheduleItemBasic(Long scheduleId) {
 
@@ -96,7 +98,8 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepository {
                 result.add(basicScheduleItemBuilder(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.warn("incorrect sql query findAll scheduleItem");
+            throw new RuntimeException(e);
         }
         return result;
     }
@@ -116,7 +119,7 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepository {
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query add scheduleItem");
-            return false;
+            throw new RuntimeException(e);
         }
         return true;
     }
@@ -130,7 +133,7 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepository {
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query deleteById user");
-            return false;
+            throw new RuntimeException(e);
         }
         return true;
     }
@@ -148,13 +151,28 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepository {
             ps.setLong(6, scheduleItem.getSchedule().getScheduleId());
             ps.setLong(7, scheduleItem.getPriceOffers().getPriceOffersId());
             ps.setLong(8, scheduleItem.getScheduleItemId());
-
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query add scheduleItem");
-            return false;
+            throw new RuntimeException(e);
         }
         return true;
+    }
+
+    @Override
+    public ScheduleItem findById(Long scheduleItemId) {
+        try (Connection connection = connectorDB.getDataSource().getConnection();
+             PreparedStatement ps = connection.prepareStatement(FIND_BY_ID)) {
+            ps.setLong(1, scheduleItemId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return scheduleItemBuilder(rs);
+            }
+        } catch (SQLException e) {
+            LOGGER.warn("incorrect sql query findById scheduleItem");
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
     @Override
@@ -172,6 +190,7 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepository {
             }
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query findUsersForPagination user");
+            throw new RuntimeException(e);
         }
         return result;
     }
@@ -188,27 +207,12 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepository {
             }
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query getNumberOfRows");
+            throw new RuntimeException(e);
         }
         return numberOfRows;
     }
 
-    @Override
-    public ScheduleItem findById(Long scheduleItemId) {
-        try (Connection connection = connectorDB.getDataSource().getConnection();
-             PreparedStatement ps = connection.prepareStatement(FIND_BY_ID)) {
-            ps.setLong(1, scheduleItemId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return scheduleItemBuilder(rs);
-            }
-        } catch (SQLException e) {
-            LOGGER.warn("incorrect sql query update user");
-        }
-        return null;
-    }
-
-
-    private ScheduleItem  scheduleItemBuilder(ResultSet resultSet) throws SQLException {
+    private ScheduleItem scheduleItemBuilder(ResultSet resultSet) throws SQLException {
 
         return ScheduleItem.builder()
                 .withScheduleItemId(resultSet.getLong("schedule_item_id"))
@@ -235,7 +239,14 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepository {
                 .build();
     }
 
-    private ScheduleItem  basicScheduleItemBuilder(ResultSet resultSet) throws SQLException {
+    /**
+     * builds an object for schedule.jsp
+     *
+     * @param resultSet
+     * @return
+     * @throws SQLException
+     */
+    private ScheduleItem basicScheduleItemBuilder(ResultSet resultSet) throws SQLException {
 
         return ScheduleItem.builder()
                 .withScheduleItemId(resultSet.getLong("schedule_item_id"))

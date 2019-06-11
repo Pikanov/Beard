@@ -1,4 +1,4 @@
-package com.beard.servlet;
+package com.beard.controller;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

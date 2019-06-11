@@ -1,4 +1,4 @@
-package com.beard.servlet;
+package com.beard.controller;
 
 import com.beard.entity.User;
 import com.beard.repository.UserRepository;
@@ -44,7 +44,7 @@ public class ProfileServlet extends HttpServlet {
         passwordValidation(req, resp, password, email);
         phoneNumberValidation(req, resp, phoneNumber);
 
-        User user =User.builder()
+        User user = User.builder()
                 .withUserId(selectedUser.get().getUserId())
                 .withFirstName(req.getParameter("firstName"))
                 .withLastName(req.getParameter("lastName"))
@@ -56,7 +56,7 @@ public class ProfileServlet extends HttpServlet {
 
         userService.update(user);
         RequestDispatcher dispatcher = req.getRequestDispatcher("jsp/profile.jsp");
-        req.setAttribute("user",Optional.ofNullable(user).get());
+        req.setAttribute("user", Optional.ofNullable(user).get());
         dispatcher.forward(req, resp);
     }
 

@@ -4,12 +4,19 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
+/**
+ * ScheduleItem - model determines the schedule for one day
+ */
 public class ScheduleItem {
     private Long scheduleItemId;
     private LocalDate date;
     private LocalTime time;
     private User master;
     private User customer;
+    /**
+     * freeBusy - determines whether it is possible to sign up for
+     * a time of the day in the schedule
+     */
     private Boolean freeBusy;
     private Schedule schedule;
     private PriceOffers priceOffers;
@@ -59,18 +66,6 @@ public class ScheduleItem {
 
     public PriceOffers getPriceOffers() {
         return priceOffers;
-    }
-
-    public void setFreeBusy(Boolean freeBusy) {
-        this.freeBusy = freeBusy;
-    }
-
-    public void setCustomer(User customer) {
-        this.customer = customer;
-    }
-
-    public void setPriceOffers(PriceOffers priceOffers) {
-        this.priceOffers = priceOffers;
     }
 
     @Override

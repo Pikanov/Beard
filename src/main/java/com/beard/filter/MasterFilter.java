@@ -1,11 +1,6 @@
 package com.beard.filter;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +21,7 @@ public class MasterFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         HttpSession session = req.getSession();
         if (session != null
-                    && session.getAttribute("role").equals("admin")){
+                && session.getAttribute("role").equals("admin")) {
             filterChain.doFilter(req, resp);
         } else {
             resp.sendRedirect("/schedule");

@@ -1,4 +1,4 @@
-package com.beard.servlet;
+package com.beard.controller;
 
 import com.beard.entity.Comment;
 import com.beard.entity.User;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet ("/comment")
+@WebServlet("/comment")
 public class CommentServlet extends HttpServlet {
 
     private CommentRepository commentRepository = new CommentRepositoryImpl();
@@ -27,14 +27,14 @@ public class CommentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         int currentPage;
-        if (req.getParameter("currentPage")== null) {
+        if (req.getParameter("currentPage") == null) {
             currentPage = 1;
         } else {
             currentPage = Integer.parseInt(req.getParameter("currentPage"));
         }
 
         int recordsPerPage;
-        if (req.getParameter("recordsPerPage")==null) {
+        if (req.getParameter("recordsPerPage") == null) {
             recordsPerPage = 5;
         } else {
             recordsPerPage = Integer.valueOf(req.getParameter("recordsPerPage"));
@@ -62,8 +62,8 @@ public class CommentServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        resp.setContentType("text/html;charset=UTF-8");
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
         HttpSession session = req.getSession();
         String email = (String) session.getAttribute("email");
         Long userId = (Long) session.getAttribute("userId");
@@ -75,8 +75,8 @@ public class CommentServlet extends HttpServlet {
                         .build())
                 .build();
 
-       commentRepository.add(comment);
-       req.setAttribute("comment", comment);
-       resp.sendRedirect("/comment");
+        commentRepository.add(comment);
+        req.setAttribute("comment", comment);
+        resp.sendRedirect("/comment");
     }
 }

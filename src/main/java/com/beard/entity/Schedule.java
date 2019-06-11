@@ -3,6 +3,9 @@ package com.beard.entity;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Schedule - model determines the days in the schedule
+ */
 public class Schedule {
     private Long scheduleId;
     private List<ScheduleItem> list;

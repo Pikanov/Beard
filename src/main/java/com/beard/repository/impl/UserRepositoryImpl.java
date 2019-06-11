@@ -6,7 +6,10 @@ import com.beard.repository.UserRepository;
 import com.beard.util.ConnectorDB;
 import org.apache.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,37 +20,37 @@ public class UserRepositoryImpl implements UserRepository {
     private ConnectorDB connectorDB;
 
     private static final String INSERT = "INSERT INTO users (first_name, last_name,email," +
-                                         "password, phone, role_id)" +
-                                         "VALUES (?, ?, ?, ?, ?, ?)";
+            "password, phone, role_id)" +
+            "VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String UPDATE = "UPDATE users SET first_name=?,last_name=?, email=?, " +
-                                         "password=?, phone=?, role_id=? " +
-                                         "WHERE user_id=?";
+            "password=?, phone=?, role_id=? " +
+            "WHERE user_id=?";
 
     private static final String FIND_BY_ID = "SELECT * FROM users " +
-                                             "JOIN roles ON users.role_id = roles.role_id " +
-                                             "WHERE user_id = ?";
+            "JOIN roles ON users.role_id = roles.role_id " +
+            "WHERE user_id = ?";
 
     private static final String DELETE_BY_ID = "DELETE FROM users " +
-                                               "WHERE user_id = ?";
+            "WHERE user_id = ?";
 
     private static final String FIND_BY_EMAIL = "SELECT * FROM users " +
-                                                "JOIN roles ON users.role_id = roles.role_id " +
-                                                "WHERE email = ?";
+            "JOIN roles ON users.role_id = roles.role_id " +
+            "WHERE email = ?";
 
     private static final String FIND_ALL_MASTERS = "SELECT * FROM users " +
-                                                   "JOIN roles ON users.role_id = roles.role_id " +
-                                                   "WHERE users.role_id = 3";
+            "JOIN roles ON users.role_id = roles.role_id " +
+            "WHERE users.role_id = 3";
 
     private static final String FIND_ALL = "SELECT * FROM users " +
-                                           "JOIN roles " +
-                                           "ON users.role_id = roles.role_id";
+            "JOIN roles " +
+            "ON users.role_id = roles.role_id";
 
     private static final String FIND_FOR_PAGINATION = "SELECT * FROM users " +
-                                                      "JOIN roles ON users.role_id = roles.role_id " +
-                                                      "LIMIT ?, ?";
+            "JOIN roles ON users.role_id = roles.role_id " +
+            "LIMIT ?, ?";
 
-    private static final String GET_NUMBER_OF_ROWS =  "SELECT COUNT(user_id) FROM users";
+    private static final String GET_NUMBER_OF_ROWS = "SELECT COUNT(user_id) FROM users";
 
 
     public UserRepositoryImpl() {
@@ -67,7 +70,7 @@ public class UserRepositoryImpl implements UserRepository {
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query add user");
-            return false;
+            throw new RuntimeException(e);
         }
         return true;
     }
@@ -87,7 +90,7 @@ public class UserRepositoryImpl implements UserRepository {
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query update user");
-            return false;
+            throw new RuntimeException(e);
         }
         return true;
     }
@@ -104,6 +107,7 @@ public class UserRepositoryImpl implements UserRepository {
             }
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query update user");
+            throw new RuntimeException(e);
         }
         return Optional.empty();
     }
@@ -117,7 +121,7 @@ public class UserRepositoryImpl implements UserRepository {
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query deleteById user");
-            return false;
+            throw new RuntimeException(e);
         }
         return true;
     }
@@ -126,7 +130,7 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> findByEmail(String email) {
 
         try (Connection connection = connectorDB.getDataSource().getConnection()) {
-            PreparedStatement ps =connection.prepareStatement(FIND_BY_EMAIL);
+            PreparedStatement ps = connection.prepareStatement(FIND_BY_EMAIL);
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -134,6 +138,7 @@ public class UserRepositoryImpl implements UserRepository {
             }
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query findByEmail user");
+            throw new RuntimeException(e);
         }
         return Optional.empty();
     }
@@ -159,6 +164,7 @@ public class UserRepositoryImpl implements UserRepository {
             }
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query findUsersForPagination user");
+            throw new RuntimeException(e);
         }
         return result;
     }
@@ -176,6 +182,7 @@ public class UserRepositoryImpl implements UserRepository {
             }
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query getNumberOfRows");
+            throw new RuntimeException(e);
         }
         return numberOfRows;
     }
@@ -196,6 +203,7 @@ public class UserRepositoryImpl implements UserRepository {
             }
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query getUsers");
+            throw new RuntimeException(e);
         }
         return result;
     }

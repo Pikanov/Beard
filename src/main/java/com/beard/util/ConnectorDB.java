@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class ConnectorDB {
-
     private final static Logger LOGGER = Logger.getLogger(ConnectorDB.class);
 
     public BasicDataSource getDataSource() {
@@ -26,6 +25,7 @@ public class ConnectorDB {
 
         } catch (IOException e) {
             LOGGER.warn("cannot connect to DB");
+            throw new RuntimeException(e);
         }
         return ds;
     }

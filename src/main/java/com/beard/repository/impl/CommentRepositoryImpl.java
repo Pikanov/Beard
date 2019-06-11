@@ -6,7 +6,10 @@ import com.beard.repository.CommentRepository;
 import com.beard.util.ConnectorDB;
 import org.apache.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,18 +19,18 @@ public class CommentRepositoryImpl implements CommentRepository {
     private ConnectorDB connectorDB;
 
     private static final String FIND_ALL = "SELECT * FROM comments " +
-                                           "JOIN users ON comments.user_id = users.user_id";
+            "JOIN users ON comments.user_id = users.user_id";
 
     private static final String FIND_BY_ID = "SELECT * FROM comments " +
-                                             "JOIN users ON comments.user_id = users.user_id " +
-                                             "WHERE comment_id = ?";
+            "JOIN users ON comments.user_id = users.user_id " +
+            "WHERE comment_id = ?";
 
     private static final String INSERT = "INSERT INTO comments (comment, user_id) " +
-                                         "VALUES (?, ?)";
+            "VALUES (?, ?)";
 
     private static final String FIND_FOR_PAGINATION = "SELECT * FROM comments " +
-                                                      "JOIN users ON comments.user_id = users.user_id " +
-                                                      "LIMIT ?, ?";
+            "JOIN users ON comments.user_id = users.user_id " +
+            "LIMIT ?, ?";
 
     private static final String GET_NUMBER_OF_ROWS = "SELECT COUNT(comment_id) FROM comments";
 
@@ -47,6 +50,7 @@ public class CommentRepositoryImpl implements CommentRepository {
             }
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query findAll");
+            throw new RuntimeException(e);
         }
         return result;
     }
@@ -62,13 +66,14 @@ public class CommentRepositoryImpl implements CommentRepository {
             }
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query findById");
+            throw new RuntimeException(e);
         }
         return null;
     }
 
     @Override
     public boolean deleteById(Long id) {
-        return false;
+        throw new RuntimeException();
     }
 
     @Override
@@ -80,14 +85,14 @@ public class CommentRepositoryImpl implements CommentRepository {
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query add");
-            return false;
+            throw new RuntimeException(e);
         }
         return true;
     }
 
     @Override
     public boolean update(Comment comment) {
-        return false;
+        throw new RuntimeException();
     }
 
     @Override
@@ -105,6 +110,7 @@ public class CommentRepositoryImpl implements CommentRepository {
             }
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query findCommentsForPagination");
+            throw new RuntimeException(e);
         }
         return result;
     }
@@ -122,6 +128,7 @@ public class CommentRepositoryImpl implements CommentRepository {
             }
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query getNumberOfRows");
+            throw new RuntimeException(e);
         }
         return numberOfRows;
     }

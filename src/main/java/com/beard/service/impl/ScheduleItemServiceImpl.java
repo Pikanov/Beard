@@ -43,7 +43,7 @@ public class ScheduleItemServiceImpl implements ScheduleItemService {
 
     @Override
     public List<ScheduleItem> findScheduleItemForPagination(int startRecord, int recordsPerPage) {
-        return scheduleItemRepository.findScheduleItemForPagination(startRecord,recordsPerPage);
+        return scheduleItemRepository.findScheduleItemForPagination(startRecord, recordsPerPage);
     }
 
     @Override

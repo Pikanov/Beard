@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebFilter(urlPatterns = {"/users/*", "/record/*", "/record_list/*", "/schedule/*",
-                          "/congratulations/*", "/profile/*", "/comments/*"})
+        "/congratulations/*", "/profile/*", "/comments/*"})
 public class LoginFilter implements Filter {
 
 
@@ -26,7 +26,7 @@ public class LoginFilter implements Filter {
                 != null
                 && (session.getAttribute("role").equals("user")
                 || session.getAttribute("role").equals("admin")
-                || (session.getAttribute("role").equals("master")))){
+                || (session.getAttribute("role").equals("master")))) {
             filterChain.doFilter(req, resp);
         } else {
             resp.sendRedirect("/login");

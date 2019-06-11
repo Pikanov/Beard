@@ -36,10 +36,10 @@ public class MailSender {
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail(), false));
             msg.setSubject("Hello!");
             msg.setContent("Thank you for visiting our barber. You can write your " +
-                              "feedback at this address: http://localhost:8080/comment"
+                            "feedback at this address: http://localhost:8080/comment"
                     , "text/html; charset=utf-8");
 
-            SMTPTransport t = (SMTPTransport)session.getTransport(PROTOCOL);
+            SMTPTransport t = (SMTPTransport) session.getTransport(PROTOCOL);
 
             t.connect("smtp.gmail.com", SEND_FROM, PASSWORD);
             t.sendMessage(msg, msg.getAllRecipients());

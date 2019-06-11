@@ -1,9 +1,10 @@
-package com.beard.servlet;
+package com.beard.controller;
 
-import com.beard.entity.ScheduleItem;
-import com.beard.repository.impl.ScheduleItemRepositoryImpl;
-import com.beard.service.ScheduleItemService;
-import com.beard.service.impl.ScheduleItemServiceImpl;
+import com.beard.entity.User;
+import com.beard.repository.UserRepository;
+import com.beard.repository.impl.UserRepositoryImpl;
+import com.beard.service.UserService;
+import com.beard.service.impl.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,30 +15,31 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/record_list")
-public class RecordListServlet extends HttpServlet {
+@WebServlet("/users")
+public class UserServlet extends HttpServlet {
 
-    private ScheduleItemService scheduleItemService = new ScheduleItemServiceImpl(new ScheduleItemRepositoryImpl());
+    private UserRepository repository = new UserRepositoryImpl();
+    private UserService userService = new UserServiceImpl(repository);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         int currentPage;
-        if (req.getParameter("currentPage")== null) {
+        if (req.getParameter("currentPage") == null) {
             currentPage = 1;
         } else {
             currentPage = Integer.parseInt(req.getParameter("currentPage"));
         }
 
         int recordsPerPage;
-        if (req.getParameter("recordsPerPage")==null) {
+        if (req.getParameter("recordsPerPage") == null) {
             recordsPerPage = 5;
         } else {
             recordsPerPage = Integer.valueOf(req.getParameter("recordsPerPage"));
         }
 
 
-        int numberOfRows = scheduleItemService.getNumberOfRows();
+        int numberOfRows = userService.getNumberOfRows();
 
         int nOfPages = numberOfRows / recordsPerPage;
         if (numberOfRows % recordsPerPage > 0) {
@@ -46,14 +48,14 @@ public class RecordListServlet extends HttpServlet {
 
         int start = currentPage * recordsPerPage - recordsPerPage;
 
-        List<ScheduleItem> record = scheduleItemService.findScheduleItemForPagination(start, recordsPerPage);
+        List<User> users = userService.findUsersForPagination(start, recordsPerPage);
 
         req.setAttribute("noOfPages", nOfPages);
         req.getSession().setAttribute("currentPage", currentPage);
         req.setAttribute("recordsPerPage", recordsPerPage);
-        req.setAttribute("recordList", record);
+        req.setAttribute("userList", users);
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("jsp/record_list.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("jsp/users.jsp");
         dispatcher.forward(req, resp);
     }
 }

@@ -1,7 +1,7 @@
 <%@include file="parts/common_head.jsp" %>
 <html>
 <head>
-    <title>record</title>
+    <title>Record</title>
 </head>
 <body>
 <div class="row">
@@ -30,7 +30,6 @@
             <input class="form-control" id="lastName" name="lastName" value="${item.master.lastName}" readonly/>
         </div>
 
-<%--        TODO сделать невидимым после проверки--%>
         <div class="form-group">
             <input class="form-control" id="freeBusy" name="freeBusy" value="${item.freeBusy}" hidden/>
         </div>

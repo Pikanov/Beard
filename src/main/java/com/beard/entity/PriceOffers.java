@@ -2,6 +2,9 @@ package com.beard.entity;
 
 import java.util.Objects;
 
+/**
+ * PriceOffers - model that determines the name and price of services
+ */
 public class PriceOffers {
 
     private Long priceOffersId;

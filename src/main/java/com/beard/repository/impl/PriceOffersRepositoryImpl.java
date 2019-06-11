@@ -20,7 +20,7 @@ public class PriceOffersRepositoryImpl implements PriceOffersRepository {
     private static final String FIND_ALL = "SELECT * FROM price_offers";
 
     private static final String FIND_BY_ID = "SELECT * FROM beard.price_offers " +
-                                             "WHERE price_offers_id=?";
+            "WHERE price_offers_id=?";
 
     public PriceOffersRepositoryImpl() {
         this.connectorDB = new ConnectorDB();
@@ -38,6 +38,7 @@ public class PriceOffersRepositoryImpl implements PriceOffersRepository {
             }
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query findAll price_offers");
+            throw new RuntimeException(e);
         }
         return result;
     }
@@ -50,27 +51,28 @@ public class PriceOffersRepositoryImpl implements PriceOffersRepository {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                result =  priceOffersBuilder(rs);
+                result = priceOffersBuilder(rs);
             }
         } catch (SQLException e) {
             LOGGER.warn("incorrect sql query findAll price_offers");
+            throw new RuntimeException(e);
         }
         return result;
     }
 
     @Override
     public boolean deleteById(Long id) {
-        return false;
+        throw new RuntimeException();
     }
 
     @Override
     public boolean add(PriceOffers priceOffers) {
-        return false;
+        throw new RuntimeException();
     }
 
     @Override
     public boolean update(PriceOffers priceOffers) {
-        return false;
+        throw new RuntimeException();
     }
 
     private PriceOffers priceOffersBuilder(ResultSet rs) throws SQLException {

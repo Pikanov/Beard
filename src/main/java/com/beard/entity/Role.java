@@ -13,9 +13,6 @@ public class Role {
         this.role = role;
     }
 
-    public Role() {
-    }
-
     public Role(Long roleId) {
         this.roleId = roleId;
     }
